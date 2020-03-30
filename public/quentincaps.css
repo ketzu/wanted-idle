@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'QuentinCaps';
+    src: url('QuentinCaps.woff2') format('woff2'),
+        url('QuentinCaps.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
