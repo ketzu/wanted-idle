@@ -3,10 +3,10 @@ export class Leveling {
         this.level = 1;
         this.exp = 0;
         this.levelups = [
-            0, 1000, 2000, 4000, 8000, 16000, Infinity
+            0, 1000, 2000, 4000, 8000, 16000, 32000, Infinity
         ];
         this.bonus = [
-          0, 1, 1.05, 1.15, 1.3, 1.5, 2
+          0, 1, 1.05, 1.15, 1.3, 1.5, 2, 3
         ];
     }
 
