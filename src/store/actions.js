@@ -1,62 +1,55 @@
 import {Action} from "../gamemechanic/Action";
+import {SteadyAction} from "../gamemechanic/SteadyAction";
+import {ProbabilisticAction} from "../gamemechanic/ProbabilisticAction";
 
 export const actionStore = {
     state: {
-        begging: undefined,
-        telegrapher: undefined,
-        deadendjob: undefined,
-        treasurehunt: undefined,
-        bountyhunter: undefined,
-
-        boxing: undefined,
-        gamble: undefined,
-        tradewithindians: undefined,
-        graverobbery: undefined,
-
-        thieving: undefined,
-        stealhorse: undefined,
-        stealcattle: undefined,
-        rob: undefined,
-        mobster: undefined,
-        breakin: undefined,
-        printmoney: undefined,
-
-        kidnap: undefined,
-        assassinate: undefined,
-        terrorize: undefined,
-        robbank: undefined,
-        robtrain: undefined
+        active: undefined,
+        actions: []
     },
     getters: {
         begging: (state) => state.begging,
+        actions: (state) => state.actions
     },
     mutations: {
+        /* eslint-disable no-unused-vars */
         newGame(state) {
-            state.begging = new Action();
-            state.telegrapher= new Action();
-            state.deadendjob= new Action();
-            state.treasurehunt= new Action();
-            state.bountyhunter= new Action();
+            // base
+            let begging = new Action("Begging", "", "", new ProbabilisticAction(), []);
+            let gamble= new Action("Gamble", "", "", new ProbabilisticAction(), [], []);
+            let thieving= new Action("Pickpocket", "", "", new ProbabilisticAction(), []);
+            let boxing= new Action("Box", "", "", new ProbabilisticAction(), []);
 
-            state.boxing= new Action();
-            state.gamble= new Action();
-            state.tradewithindians= new Action();
-            state.graverobbery= new Action();
+            // 1st level
+            let telegrapher= new Action("Telegraphing", "", "", new SteadyAction(), [], [begging]);
+            let mobster= new Action("Batter", "", "", new SteadyAction(), [], [boxing]);
+            let rob= new Action("Rob People", "", "", new ProbabilisticAction(), [], [thieving]);
+            let stealhorse= new Action("Steal Horse", "", "", new ProbabilisticAction(), [], [begging, thieving]);
 
-            state.thieving= new Action();
-            state.stealhorse= new Action();
-            state.stealcattle= new Action();
-            state.rob= new Action();
-            state.mobster= new Action();
-            state.breakin= new Action();
-            state.printmoney= new Action();
+            // 1+ level
+            let treasurehunt= new Action("Treasure Hunt", "", "", new ProbabilisticAction(), [], [telegrapher, begging]);
 
-            state.kidnap= new Action();
-            state.assassinate= new Action();
-            state.terrorize= new Action();
-            state.robbank= new Action();
-            state.robtrain= new Action();
+            let breakin= new Action("Burgle", "", "", new ProbabilisticAction(), [], [mobster]);
+            let assassinate= new Action("Assassinate", "", "", new ProbabilisticAction(), [], [mobster]);
+            let graverobbery= new Action("Rob Graves", "", "", new ProbabilisticAction(), [], [treasurehunt]);
+            let robbank= new Action("Rob Bank", "", "", new ProbabilisticAction(), [], [rob]);
+
+            // leafs
+            let stealcattle= new Action("Steal Cattle", "", "", new ProbabilisticAction(), [], [stealhorse], true);
+            let deadendjob= new Action("Dead-end Job", "", "", new SteadyAction(), [], [telegrapher], true);
+            let printmoney= new Action("Print Money", "", "", new SteadyAction(), [], [treasurehunt, graverobbery, robbank], true);
+            let bountyhunter= new Action("Bounty Hunt", "", "", new ProbabilisticAction(), [], [telegrapher, begging], true);
+            let robtrain= new Action("Rob Train", "", "", new ProbabilisticAction(), [], [rob], true);
+            let terrorize= new Action("Terrorize", "", "", new ProbabilisticAction(), [], [assassinate], true);
+            let tradewithindians= new Action("Indians Trade", "", "", new SteadyAction(), [], [gamble, breakin], true);
+            let kidnap= new Action("Kidnap", "", "", new ProbabilisticAction(), [], [breakin], true);
         },
+        /* eslint-enable no-unused-vars */
+        tick(state) {
+            if(state.active !== undefined) {
+                state.actions[state.active].tick();
+            }
+        }
     },
     actions: {
 

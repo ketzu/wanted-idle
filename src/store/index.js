@@ -10,7 +10,6 @@ export default new Vuex.Store({
     initialized: false,
     ticks: 0,
     money: 0,
-    tickrate: 20,
     revolver: false
   },
   getters: {

@@ -1,4 +1,4 @@
-export class SteadyAction {
+export class ProbabilisticAction {
     constructor(probability, payoff) {
         this.probability = probability;
         this.payoff = payoff;
