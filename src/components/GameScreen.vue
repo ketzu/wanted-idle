@@ -1,21 +1,21 @@
 <template>
     <v-row class="mx-3">
-        <template v-for="gen in generators">
-            <v-col :key="gen.name" class="col-md-6">
-                <generator :name="gen.name" :icon="gen.icon" :progress="gen.progress" :value="gen.value" :desc="gen.desc"></generator>
+        <template v-for="action in actions">
+            <v-col :key="action.name" class="col-md-6">
+                <action :name="action.name" :icon="action.icon" :progress="action.progress" :value="action.value" :desc="action.description"></action>
             </v-col>
         </template>
     </v-row>
 </template>
 
 <script>
-    import Generator from "@/components/Generator";
+    import Action from "@/components/Action";
     import {mapGetters} from "vuex";
     export default {
         name: "GameScreen",
-        components: {Generator},
+        components: {Action},
         computed: {
-            ...mapGetters(['generators'])
+            ...mapGetters(['actions'])
         }
     }
 </script>

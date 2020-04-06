@@ -31,7 +31,7 @@
               :value="value/10000*100"
               height="40"
               style="font-family: QuentinCaps;"
-      >{{ Math.floor(value) }} of {{ goal.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}</v-progress-linear>
+      >{{ Math.floor(value) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}</v-progress-linear>
 
       <GameMenu v-if="!started" v-on:selected="start"></GameMenu>
       <GameScreen v-else></GameScreen>
@@ -53,9 +53,9 @@ export default {
   },
   computed: {
     value() {
-      return this.$store.getters.currency;
+      return this.$store.getters.money;
     },
-    ...mapGetters(['int', 'str', 'dex', 'initialized', 'goal'])
+    ...mapGetters(['initialized'])
   },
   methods: {
     start() {
