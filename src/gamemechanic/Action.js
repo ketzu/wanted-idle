@@ -18,12 +18,20 @@ export class Action {
             this.predecessors = predecessors;
         else
             this.predecessors = [];
+
+        this.reward = 0;
     }
 
     tick() {
         this.level.tick();
         const prebonus =  Math.max(1, ...this.predecessors.map(p => p.bonus()));
-        return this.action.tick() * this.level.bonus() * prebonus * this.leafbonus;
+        this.reward += this.action.tick() * this.level.bonus() * prebonus * this.leafbonus;
+    }
+
+    retrieve() {
+        const reward = this.reward;
+        this.reward = 0;
+        return reward;
     }
 
     bonus() {

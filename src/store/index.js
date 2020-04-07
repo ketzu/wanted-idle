@@ -25,7 +25,7 @@ export default new Vuex.Store({
       state.initialized = true;
       state.revolver = false;
     },
-    addCurrency(state, {value}) {
+    addCurrency(state, value) {
       state.money += value;
     },
     tick(state){

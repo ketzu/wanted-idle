@@ -1,8 +1,8 @@
 <template>
     <v-row class="mx-3">
-        <template v-for="action in actions">
+        <template v-for="(action, index) in actions">
             <v-col :key="action.name" class="col-md-6">
-                <action :name="action.name" :icon="action.icon" :progress="action.progress" :value="action.value" :desc="action.description"></action>
+                <action :title="action.title" :icon="action.icon" :description="action.description" :active="index === active" :level="action.level" :index="index"></action>
             </v-col>
         </template>
     </v-row>
@@ -15,7 +15,7 @@
         name: "GameScreen",
         components: {Action},
         computed: {
-            ...mapGetters(['actions'])
+            ...mapGetters(['actions', 'active'])
         }
     }
 </script>

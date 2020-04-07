@@ -43,6 +43,7 @@
 import { mapGetters } from 'vuex';
 import GameMenu from "@/components/GameMenu";
 import GameScreen from "@/components/GameScreen";
+import {tickrate} from "./gamemechanic/constants";
 
 export default {
   name: 'App',
@@ -64,7 +65,6 @@ export default {
       let last = null;
       let progress = 0;
       const self = this;
-      const tickrate = this.$store.getters.tickrate;
 
       function tick(timestamp) {
         if(!last) last = timestamp;
