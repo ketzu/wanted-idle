@@ -77,7 +77,6 @@ export const actionStore = {
             if(state.active >= 0 && state.active < state.unlockedactions.length) {
                 commit('progress');
                 const reward = state.unlockedactions[state.active].retrieve();
-                console.log(reward);
                 if(reward !== 0){
                     commit('addCurrency', reward);
                     EventBus.$emit('gainedCurrency', reward);

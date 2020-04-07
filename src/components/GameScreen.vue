@@ -2,7 +2,7 @@
     <v-row class="mx-3">
         <template v-for="(action, index) in actions">
             <v-col :key="action.name" class="col-md-6">
-                <action :title="action.title" :icon="action.icon" :description="action.description" :active="index === active" :level="action.level" :index="index"></action>
+                <action :title="action.title" :icon="action.icon" :description="action.description" :active="index === active" :level="action.level" :index="index" :action="action.action"></action>
             </v-col>
         </template>
     </v-row>
