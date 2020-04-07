@@ -1,5 +1,5 @@
 <template>
-    <v-card color="#C4A56C">
+    <v-card color="#C4A56C" :elevation="active?10:1">
         <v-list-item three-line ripple @click="click">
             <v-list-item-avatar
                     tile
