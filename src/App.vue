@@ -30,7 +30,7 @@
               background-color="#C4A56C"
               :value="value/10000*100"
               height="40"
-              style="font-family: QuentinCaps;"
+              style="font-family: QuentinCaps; border-top: thin solid black; border-bottom: thin solid black;"
       >{{ Math.floor(value) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}</v-progress-linear>
 
       <GameMenu v-if="!started" v-on:selected="start"></GameMenu>

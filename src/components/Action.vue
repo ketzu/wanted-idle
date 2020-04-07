@@ -1,5 +1,5 @@
 <template>
-    <v-card color="#C4A56C" :elevation="active?10:1">
+    <v-card color="#C4A56C" :raised="active" :outlined="!active" style="border-color: black;">
         <v-list-item three-line ripple @click="click">
             <v-list-item-avatar
                     tile
@@ -16,11 +16,12 @@
             <Level :level="level"></Level>
         </v-list-item>
 
-        <v-progress-linear
+        <v-progress-linear v-if="active || action.counter !== undefined"
                 color="#4B3309"
-                :indeterminate="active && action.counter === undefined"
                 :value="action.counter*100/action.ticks || 0"
                 height="15"
+                buffer-value="0"
+                :stream="active && action.counter === undefined"
         ></v-progress-linear>
     </v-card>
 </template>
