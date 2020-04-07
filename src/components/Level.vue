@@ -14,6 +14,8 @@
         props: ['level'],
         computed: {
             progress() {
+                if(this.level.nextlevelexp()===Infinity)
+                    return 100;
                 return ((this.level.exp-this.level.baselevelexp())/(this.level.nextlevelexp()-this.level.baselevelexp())*100);
             },
             showlevel() {

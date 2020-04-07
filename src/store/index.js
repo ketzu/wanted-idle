@@ -10,15 +10,25 @@ export default new Vuex.Store({
     initialized: false,
     ticks: 0,
     money: 0,
-    revolver: false
+    revolver: false,
+    music: true,
+    effects: true
   },
   getters: {
     initialized: (state) => state.initialized,
     money: (state) => state.money,
     tickrate: (state) => state.tickrate,
-    revolver: (state) => state.revolver
+    revolver: (state) => state.revolver,
+    music: (state) => state.music,
+    effects: (state) => state.effects
   },
   mutations: {
+    toggleffects(state) {
+      state.effects = !state.effects;
+    },
+    togglmusic(state) {
+      state.music = !state.music;
+    },
     newGame(state) {
       state.money = 0;
       state.ticks = 0;

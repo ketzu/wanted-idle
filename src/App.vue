@@ -7,10 +7,19 @@
       elevation="0"
     >
       <div class="d-flex align-center">
-        <img src="@/assets/icons/revolver.png" height="55">
-        <img src="@/assets/logo.png" height="35">
-        <img src="@/assets/icons/revolver.png" height="55" style="transform: scaleX(-1);">
+        <v-btn icon @click="$store.commit('toggleffects')" class="px-4">
+          <v-icon large color="black" v-if="effects">fas fa-volume-up</v-icon>
+          <v-icon large color="black" v-else>fas fa-volume-mute</v-icon>
+        </v-btn>
+        <v-btn icon @click="$store.commit('togglmusic')" class="px-4">
+          <v-icon large color="grey darken-3" v-if="!music" style="position: absolute; z-index:99;">fas fa-slash</v-icon>
+          <v-icon large color="black" style="position: absolute;">fas fa-music</v-icon>
+        </v-btn>
       </div>
+
+      <v-spacer></v-spacer>
+
+      <EventStreamDisplay></EventStreamDisplay>
 
       <v-spacer></v-spacer>
 
@@ -44,19 +53,25 @@ import { mapGetters } from 'vuex';
 import GameMenu from "@/components/GameMenu";
 import GameScreen from "@/components/GameScreen";
 import {tickrate} from "./gamemechanic/constants";
+import EventStreamDisplay from "./components/EventStreamDisplay";
 
 export default {
   name: 'App',
 
   components: {
+    EventStreamDisplay,
     GameScreen,
     GameMenu,
   },
+  data: () => ({
+    started: false,
+    musicfile: new Audio(require('@/assets/sounds/bg_antti.mp3'))
+  }),
   computed: {
     value() {
       return this.$store.getters.money;
     },
-    ...mapGetters(['initialized'])
+    ...mapGetters(['initialized','music','effects'])
   },
   methods: {
     start() {
@@ -65,6 +80,9 @@ export default {
       let last = null;
       let progress = 0;
       const self = this;
+
+      if(this.music)
+        this.musicfile.play();
 
       function tick(timestamp) {
         if(!last) last = timestamp;
@@ -78,9 +96,14 @@ export default {
       window.requestAnimationFrame(tick);
     }
   },
-
-  data: () => ({
-    started: false
-  }),
+  watch: {
+    music (newvalue) {
+      if(newvalue){
+        this.musicfile.play();
+      }else{
+        this.musicfile.pause();
+      }
+    }
+  }
 };
 </script>
