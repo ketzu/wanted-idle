@@ -13,7 +13,14 @@
     import {EventBus} from "../EventBus";
     import {mapGetters} from "vuex";
 
-    const coinsounds = [new Audio(require('@/assets/sounds/coin_1.wav')),new Audio(require('@/assets/sounds/coin_2.wav')),new Audio(require('@/assets/sounds/coin_3.wav'))];
+    const coinsounds = [
+        new Audio(require('@/assets/sounds/coin_1.wav')),
+        new Audio(require('@/assets/sounds/coin_2.wav')),
+        new Audio(require('@/assets/sounds/coin_3.wav')),
+        new Audio(require('@/assets/sounds/coin_4.wav')),
+        new Audio(require('@/assets/sounds/coin_5.wav')),
+        new Audio(require('@/assets/sounds/coin_6.wav'))
+    ];
 
     export default {
         name: "EventStreamDisplay",
@@ -34,13 +41,23 @@
             }
         },
         computed: {
-            ...mapGetters(['effects'])
+            ...mapGetters(['effects', 'effectsvolume'])
+        },
+        mounted() {
+            for(let sound of coinsounds){
+                sound.volume = this.effectsvolume;
+            }
+            EventBus.$on('gainedCurrency', this.gainedCurrency);
         },
         beforeDestroy() {
             EventBus.$off('gainedCurrency', this.gainedCurrency);
         },
-        mounted() {
-            EventBus.$on('gainedCurrency', this.gainedCurrency);
+        watch: {
+            effectsvolume (newvalue) {
+                for(let sound of coinsounds){
+                    sound.volume = newvalue;
+                }
+            }
         }
     }
 </script>
@@ -59,6 +76,6 @@
 
     @keyframes fade {
         0%,100% { opacity: 0 }
-        10%,50% { opacity: 1 }
+        10%,30% { opacity: 1 }
     }
 </style>

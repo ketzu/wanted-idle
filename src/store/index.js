@@ -12,7 +12,9 @@ export default new Vuex.Store({
     money: 0,
     revolver: false,
     music: true,
-    effects: true
+    effects: true,
+    musicvolume: 1,
+    effectsvolume: 1
   },
   getters: {
     initialized: (state) => state.initialized,
@@ -20,7 +22,9 @@ export default new Vuex.Store({
     tickrate: (state) => state.tickrate,
     revolver: (state) => state.revolver,
     music: (state) => state.music,
-    effects: (state) => state.effects
+    effects: (state) => state.effects,
+    musicvolume: (state) => state.musicvolume,
+    effectsvolume: (state) => state.effectsvolume
   },
   mutations: {
     toggleffects(state) {
@@ -28,6 +32,12 @@ export default new Vuex.Store({
     },
     togglmusic(state) {
       state.music = !state.music;
+    },
+    setmusic(state, volume){
+      state.musicvolume = volume;
+    },
+    seteffects(state, volume){
+      state.effectsvolume = volume;
     },
     newGame(state) {
       state.money = 0;

@@ -1,15 +1,15 @@
 <template>
     <v-container fluid>
-        <v-row justify="center">
-            <v-col align="center" cols="12" v-if="initialized" class="pa-3">
-                <v-card color="#C4A56C" class="py-3" ripple @click="select">
+        <v-row justify="center" class="mx-3">
+            <v-col align="center" cols="6" v-if="initialized" class="pa-3">
+                <v-card color="#C4A56C" class="py-3" ripple @click="select" outlined style="border-color: black;">
                     <span class="display-1">
                         Continue
                     </span>
                 </v-card>
             </v-col>
-            <v-col align="center" cols="12" class="pa-3">
-                <v-card color="#C4A56C" class="py-3" ripple @click="newGame">
+            <v-col align="center" cols="6" class="pa-3">
+                <v-card color="#C4A56C" class="py-3" ripple @click="newGame" outlined style="border-color: black;">
                     <span class="display-1">
                         New Game
                     </span>

@@ -7,13 +7,16 @@
       elevation="0"
     >
       <div class="d-flex align-center">
-        <v-btn icon @click="$store.commit('toggleffects')" class="px-4">
+        <v-btn icon @click="$store.commit('toggleffects')" class="px-4 mx-2">
           <v-icon large color="black" v-if="effects">fas fa-volume-up</v-icon>
           <v-icon large color="black" v-else>fas fa-volume-mute</v-icon>
         </v-btn>
         <v-btn icon @click="$store.commit('togglmusic')" class="px-4">
           <v-icon large color="grey darken-3" v-if="!music" style="position: absolute; z-index:99;">fas fa-slash</v-icon>
           <v-icon large color="black" style="position: absolute;">fas fa-music</v-icon>
+        </v-btn>
+        <v-btn icon @click="settings=!settings" class="px-4 mx-2">
+          <v-icon large color="black" style="position: absolute;">fas fa-cogs</v-icon>
         </v-btn>
       </div>
 
@@ -42,6 +45,7 @@
               style="font-family: QuentinCaps; border-top: thin solid black; border-bottom: thin solid black;"
       >{{ Math.floor(value) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}</v-progress-linear>
 
+      <Settings v-if="settings"></Settings>
       <GameMenu v-if="!started" v-on:selected="start"></GameMenu>
       <GameScreen v-else></GameScreen>
     </v-content>
@@ -54,33 +58,40 @@ import GameMenu from "@/components/GameMenu";
 import GameScreen from "@/components/GameScreen";
 import {tickrate} from "./gamemechanic/constants";
 import EventStreamDisplay from "./components/EventStreamDisplay";
+import Settings from "./components/Settings";
 
 export default {
   name: 'App',
 
   components: {
+    Settings,
     EventStreamDisplay,
     GameScreen,
     GameMenu,
   },
   data: () => ({
     started: false,
-    musicfile: new Audio(require('@/assets/sounds/bg_antti.mp3'))
+    musicfile: new Audio(require('@/assets/sounds/bg_antti.mp3')),
+    settings: false
   }),
   computed: {
     value() {
       return this.$store.getters.money;
     },
-    ...mapGetters(['initialized','music','effects'])
+    ...mapGetters(['initialized','music','effects','musicvolume','effectsvolume'])
   },
   methods: {
     start() {
+      if(this.started)
+        return;
       this.started = true;
 
       let last = null;
       let progress = 0;
       const self = this;
 
+      this.musicfile.volume = this.musicvolume;
+      this.musicfile.loop = true;
       if(this.music)
         this.musicfile.play();
 
@@ -103,6 +114,9 @@ export default {
       }else{
         this.musicfile.pause();
       }
+    },
+    musicvolume (newvalue) {
+      this.musicfile.volume = newvalue;
     }
   }
 };
