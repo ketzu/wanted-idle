@@ -45,8 +45,11 @@
               height="40"
               style="font-family: QuentinCaps; border-top: thin solid black; border-bottom: thin solid black;"
       >
+        <v-spacer></v-spacer>
+        <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
         {{ Math.floor(value) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
         <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
+        <v-spacer></v-spacer>
       </v-progress-linear>
 
       <Settings v-if="settings"></Settings>
