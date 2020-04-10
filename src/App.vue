@@ -22,6 +22,7 @@
 
       <v-spacer></v-spacer>
 
+      <EventsStreamDisplay></EventsStreamDisplay>
       <MoneyStreamDisplay></MoneyStreamDisplay>
 
       <v-spacer></v-spacer>
@@ -37,13 +38,16 @@
     </v-app-bar>
 
     <v-content>
-      <v-progress-linear class="my-2" v-if="started"
+      <v-progress-linear class="my-2"
               color="#4B3309"
               background-color="#C4A56C"
               :value="value/10000*100"
               height="40"
               style="font-family: QuentinCaps; border-top: thin solid black; border-bottom: thin solid black;"
-      >{{ Math.floor(value) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}</v-progress-linear>
+      >
+        {{ Math.floor(value) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
+        <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
+      </v-progress-linear>
 
       <Settings v-if="settings"></Settings>
       <GameMenu v-if="!started" v-on:selected="start"></GameMenu>
@@ -61,11 +65,13 @@ import {tickrate} from "./gamemechanic/constants";
 import MoneyStreamDisplay from "./components/MoneyStreamDisplay";
 import Settings from "./components/Settings";
 import EventList from "./components/EventList";
+import EventsStreamDisplay from "./components/EventsStreamDisplay";
 
 export default {
   name: 'App',
 
   components: {
+    EventsStreamDisplay,
     EventList,
     Settings,
     MoneyStreamDisplay,
@@ -81,7 +87,7 @@ export default {
     value() {
       return this.$store.getters.money;
     },
-    ...mapGetters(['initialized','music','effects','musicvolume','effectsvolume'])
+    ...mapGetters(['initialized','music','effects','musicvolume','effectsvolume', 'revolver'])
   },
   methods: {
     start() {

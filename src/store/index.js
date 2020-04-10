@@ -61,10 +61,10 @@ export default new Vuex.Store({
     },
     tick({state, commit, dispatch}) {
       commit('tick');
-      if(state.money > 20) {
+      if(state.money > 10) {
         dispatch('checkEvent', "moneyToGamble");
       }
-      if(state.money > 50) {
+      if(state.money > 20) {
         dispatch('checkEvent', "moneyToRevolver");
       }
     },

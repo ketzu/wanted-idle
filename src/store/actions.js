@@ -82,7 +82,7 @@ export const actionStore = {
                     commit('addCurrency', reward);
                     EventBus.$emit('gainedCurrency', reward);
                 }
-                if(rootState.ticks < tickrate * 30)
+                if(rootState.ticks < tickrate * 10)
                     return;
                 for(let eventname of state.unlockedactions[state.active].events) {
                     dispatch('checkEvent', eventname);

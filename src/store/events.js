@@ -8,6 +8,7 @@ import {EventBus} from "../EventBus";
 
 export const eventStore = {
     state: {
+        unlocked: {},
         excluded: {},
         waiting: [],
         all: {},
@@ -19,6 +20,7 @@ export const eventStore = {
     },
     mutations: {
         newGame(state) {
+            state.unlocked = {};
             state.excluded = {};
             state.all = {
                 begToStealHorse: new Event("You see an unattended horse.", require("@/assets/icons/horse.png"), 60, [
@@ -58,7 +60,7 @@ export const eventStore = {
                     new EventOption("Sell it", require("@/assets/icons/indian_carpet.png"), "unlockAction", "tradewithindians", ['breakInToTrade','gambleToTrade'] ),
                     new EventOption("Stay lucky!", require("@/assets/icons/horseshoe.png"))]),
                 moneyToGamble: new Event("You're rich! Wanna risk some?.", require("@/assets/icons/playing_cards.png"), 100, [
-                    new EventOption("I'm lucky!", require("@/assets/icons/cigar.png"), "unlockAction", "Gamble", ['moneyToGamble'] ),
+                    new EventOption("I'm lucky!", require("@/assets/icons/cigar.png"), "unlockAction", "gamble", ['moneyToGamble'] ),
                     new EventOption("A trap!", require("@/assets/icons/bear_trap.png"))]),
                 assassinateToTerrorize: new Event("Wanna try s'mthing ev'n more deprived?", require("@/assets/icons/dynamite.png"), 220, [
                     new EventOption("I'm lucky!", require("@/assets/icons/molotov.png"), "unlockAction", "terrorize", ['assassinateToTerrorize'] ),
@@ -94,7 +96,7 @@ export const eventStore = {
                     new EventOption("Su'a!", require("@/assets/icons/shaving_knive.png"), "unlockAction", "assassinate", ['mobsterToAssasinate'] ),
                     new EventOption("Wha???", require("@/assets/icons/glass_bottle.png"))]),
                 moneyToRevolver: new Event("Maybe you should buy a weapon?", require("@/assets/icons/revolver.png"), 90, [
-                    new EventOption("Buy it!", require("@/assets/icons/holster_revolver.png"), "unlockAction", "", ['moneyToRevolver'] ),
+                    new EventOption("Buy it!", require("@/assets/icons/holster_revolver.png"), "unlockRevolver", "", ['moneyToRevolver'] ),
                     new EventOption("No need.", require("@/assets/icons/dream_catcher.png"))])
             };
             state.waiting = [];
@@ -106,8 +108,10 @@ export const eventStore = {
             };
         },
         addEvent(state, value) {
-            if(state.all[value] !== undefined)
+            if(state.all[value] !== undefined){
                 Vue.set(state.waiting, state.waiting.length, state.all[value]);
+                Vue.set(state.unlocked, value,  true);
+            }
         },
         removeEvent(state, index) {
             Vue.delete(state.waiting, index);
@@ -115,8 +119,9 @@ export const eventStore = {
         excludeEvent(state, name) {
             Vue.set(state.excluded, name, true);
             const excludedindex = state.waiting.findIndex(e => e.title === state.all[name].title);
-            if(excludedindex > -1)
+            if(excludedindex > -1){
                 Vue.delete(state.waiting, excludedindex);
+            }
         }
     },
     actions: {
@@ -124,22 +129,29 @@ export const eventStore = {
             const index = state.waiting.findIndex(e => e.title === eventtitle);
             if(index > -1){
                 const optionindex = state.waiting[index].options.findIndex((e) => e.text === optiontitle);
+                const exclusions = state.waiting[index].options[optionindex].exclude;
                 commit('removeEvent', index);
                 if(optionindex > -1){
-                    for(let eventname of state.waiting[index].options[optionindex].exclude) {
+                    for(let eventname of exclusions) {
                         commit('excludeEvent', eventname);
                     }
                 }
             }
         },
         checkEvent({state, commit, rootState}, value) {
-            if(state.all[value] !== undefined && state.excluded[value] !== true) {
-                if(state.requirerevolver[value] && !rootState.revolver)
+            if (state.all[value] !== undefined && state.excluded[value] !== true && state.unlocked[value] !== true) {
+                if (state.requirerevolver[value] && !rootState.revolver)
                     return;
-                if(state.all[value].fires()) {
+                if (state.all[value].fires()) {
                     commit('addEvent', value);
                     EventBus.$emit('EventFired', value);
                 }
+            }
+        },
+        testEvents({commit}) {
+            const eventlist = ["begToStealHorse","begToTreasureHunt","begToTelegrapher","thievToStealHorse","boxToMobster","stealHorseToStealCattle","telegrapherToDeadEnd","telegrapherToTreasureHunt","mobsterToBreakIn","breakInToKidnap","breakInToTrade","gambleToTrade","moneyToGamble","assassinateToTerrorize","robToRobBank","robToRobTrain","robBankToPrintMoney","treasureHuntToPrintMoney","treasureHuntToRobGrave","robGraveToPrintMoney","telegrapherToBountyHunter","begToBountyHunter","thievToRob","mobsterToAssasinate","moneyToRevolver"];
+            for(let ev of eventlist) {
+                commit('addEvent', ev);
             }
         }
     }
