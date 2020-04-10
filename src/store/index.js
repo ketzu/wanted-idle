@@ -59,9 +59,14 @@ export default new Vuex.Store({
     init({commit}) {
       commit('newGame');
     },
-    tick({commit}) {
+    tick({state, commit, dispatch}) {
       commit('tick');
-      // const tickspermin = 60*1000/state.tickrate;
+      if(state.money > 20) {
+        dispatch('checkEvent', "moneyToGamble");
+      }
+      if(state.money > 50) {
+        dispatch('checkEvent', "moneyToRevolver");
+      }
     },
     unlockRevolver({commit}) {
       commit('unlockRevolver');

@@ -1,11 +1,15 @@
 import {Leveling} from "./Leveling";
 
 export class Action {
-    constructor(title, description, icon, actionImplementation, predecessors, leaf) {
+    constructor(title, description, icon, actionImplementation, events, predecessors, leaf) {
         this.title = title;
         this.description = description;
         this.icon = icon;
         this.action = actionImplementation;
+        if(events !== undefined)
+            this.events = events;
+        else
+            this.events = [];
 
         // if it is a leaf, give it a bonus
         this.leafbonus = leaf?1.5:1;
