@@ -23,7 +23,7 @@
     ];
 
     export default {
-        name: "EventStreamDisplay",
+        name: "MoneyStreamDisplay",
         data: function () {
             return {
                 gaindvalues: [],

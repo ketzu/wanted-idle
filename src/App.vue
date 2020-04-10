@@ -22,7 +22,7 @@
 
       <v-spacer></v-spacer>
 
-      <EventStreamDisplay></EventStreamDisplay>
+      <MoneyStreamDisplay></MoneyStreamDisplay>
 
       <v-spacer></v-spacer>
 
@@ -47,7 +47,8 @@
 
       <Settings v-if="settings"></Settings>
       <GameMenu v-if="!started" v-on:selected="start"></GameMenu>
-      <GameScreen v-else></GameScreen>
+      <EventList v-if="started"></EventList>
+      <GameScreen v-if="started"></GameScreen>
     </v-content>
   </v-app>
 </template>
@@ -57,15 +58,17 @@ import { mapGetters } from 'vuex';
 import GameMenu from "@/components/GameMenu";
 import GameScreen from "@/components/GameScreen";
 import {tickrate} from "./gamemechanic/constants";
-import EventStreamDisplay from "./components/EventStreamDisplay";
+import MoneyStreamDisplay from "./components/MoneyStreamDisplay";
 import Settings from "./components/Settings";
+import EventList from "./components/EventList";
 
 export default {
   name: 'App',
 
   components: {
+    EventList,
     Settings,
-    EventStreamDisplay,
+    MoneyStreamDisplay,
     GameScreen,
     GameMenu,
   },

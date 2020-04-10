@@ -3,10 +3,12 @@ import Vue from "vue";
 export const eventStore = {
     state: {
         excluded: {},
+        waiting: [],
         active: [],
         all: {}
     },
     getters: {
+        events: (state) => state.waiting
     },
     mutations: {
         newGame(state) {

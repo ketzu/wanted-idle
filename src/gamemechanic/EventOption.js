@@ -11,13 +11,4 @@ export class EventOption {
         else
             this.exclude = exclude;
     }
-
-    fire(commit) {
-        if(this.action !== undefined)
-            commit(this.action, this.params);
-
-        for(let excluded of this.exclude) {
-            commit('excludeEvents', excluded);
-        }
-    }
 }
