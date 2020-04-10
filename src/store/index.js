@@ -50,6 +50,9 @@ export default new Vuex.Store({
     },
     tick(state){
       state.ticks += 1;
+    },
+    unlockRevolver(state) {
+      state.revolver = true;
     }
   },
   actions: {
@@ -59,6 +62,9 @@ export default new Vuex.Store({
     tick({commit}) {
       commit('tick');
       // const tickspermin = 60*1000/state.tickrate;
+    },
+    unlockRevolver({commit}) {
+      commit('unlockRevolver');
     }
   },
   modules: {

@@ -9,7 +9,7 @@ export class Event {
         this.options = options;
     }
 
-    tick(probabilityBoost) {
+    fires(probabilityBoost) {
         if(probabilityBoost === undefined)
             probabilityBoost = 1;
         return Math.random() < (this.probability * probabilityBoost);

@@ -1,1 +1,1 @@
-export const tickrate = 20;
+export const tickrate = 100;

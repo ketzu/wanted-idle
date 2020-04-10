@@ -101,6 +101,7 @@ export default {
       function tick(timestamp) {
         if(!last) last = timestamp;
         progress += timestamp - last;
+        last = timestamp;
         if(progress > tickrate) {
           progress -= tickrate;
           self.$store.dispatch('tick');
