@@ -13,7 +13,7 @@ export default new Vuex.Store({
     revolver: false,
     music: true,
     effects: true,
-    musicvolume: 1,
+    musicvolume: 0.25,
     effectsvolume: 1
   },
   getters: {

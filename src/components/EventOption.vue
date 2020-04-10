@@ -24,6 +24,8 @@
                     for(let excluded of this.option.exclude) {
                         this.$store.dispatch('excludeEvents', excluded);
                     }
+
+                this.$emit('fulfilled');
             }
         }
     }

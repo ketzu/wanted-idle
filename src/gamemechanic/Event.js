@@ -1,10 +1,8 @@
 import {tickrate} from "./constants";
 
 export class Event {
-    constructor(id, title, description, icon, expectedTimeInSeconds, options) {
-        this.id = id;
+    constructor(title, icon, expectedTimeInSeconds, options) {
         this.title = title;
-        this.description = description;
         this.icon = icon;
         this.probability = 1 / (expectedTimeInSeconds * tickrate);
 

@@ -9,7 +9,7 @@
             </v-list-item-content>
 
             <v-list-item-action :key="index" v-for="(option,index) of options">
-                <EventOption :option="option"></EventOption>
+                <EventOption :option="option" @fulfilled="$store.dispatch('fulfilEvent', title)"></EventOption>
             </v-list-item-action>
         </v-list-item>
 </template>
