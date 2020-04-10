@@ -19,12 +19,6 @@
             fire() {
                 if(this.option.action !== undefined)
                     this.$store.dispatch(this.option.action, this.option.params);
-
-                if(this.option.exclude !== undefined)
-                    for(let excluded of this.option.exclude) {
-                        this.$store.dispatch('excludeEvents', excluded);
-                    }
-
                 this.$emit('fulfilled');
             }
         }

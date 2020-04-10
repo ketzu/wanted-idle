@@ -3,6 +3,7 @@ import {Action} from "../gamemechanic/Action";
 import {SteadyAction} from "../gamemechanic/SteadyAction";
 import {ProbabilisticAction} from "../gamemechanic/ProbabilisticAction";
 import {EventBus} from "../EventBus"
+import {tickrate} from "../gamemechanic/constants";
 
 export const actionStore = {
     state: {
@@ -19,7 +20,7 @@ export const actionStore = {
         newGame(state) {
             state.actions = {
                 // base
-                begging: new Action("Beg", "Placeholder Description Begging", require('@/assets/icons/metal_cup.png'), new ProbabilisticAction(0.0091, 0.91), ["begToStealHorse","begToTreasureHunt","begToTelegrapher","beggingToBountyHunter"]),
+                begging: new Action("Beg", "Placeholder Description Begging", require('@/assets/icons/metal_cup.png'), new ProbabilisticAction(0.0091, 0.91), ["begToStealHorse","begToTreasureHunt","begToTelegrapher","begToBountyHunter"]),
                 thieving: new Action("Pickpocket", "Placeholder Description Pickpocketing", require('@/assets/icons/bag.png'), new ProbabilisticAction(0.00705,1.18), ["thievToStealHorse","thievToRob"]),
                 boxing: new Action("Box", "Placeholder Description Boxing", require('@/assets/icons/hand_hit.png'), new SteadyAction(60,0.5), ["boxToMobster"]),
                 gamble: new Action("Gamble", "Placeholder Description Gamling", require('@/assets/icons/playing_cards.png'), new ProbabilisticAction(0.00004,300), ["gambleToTrade"]),
@@ -73,7 +74,7 @@ export const actionStore = {
         }
     },
     actions: {
-        tick({commit, state}){
+        tick({dispatch, commit, state, rootState}){
             if(state.active >= 0 && state.active < state.unlockedactions.length) {
                 commit('progress');
                 const reward = state.unlockedactions[state.active].retrieve();
@@ -81,8 +82,10 @@ export const actionStore = {
                     commit('addCurrency', reward);
                     EventBus.$emit('gainedCurrency', reward);
                 }
+                if(rootState.ticks < tickrate * 30)
+                    return;
                 for(let eventname of state.unlockedactions[state.active].events) {
-                    commit('checkEvent', eventname);
+                    dispatch('checkEvent', eventname);
                 }
             }
         },

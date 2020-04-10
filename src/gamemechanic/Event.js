@@ -4,7 +4,7 @@ export class Event {
     constructor(title, icon, expectedTimeInSeconds, options) {
         this.title = title;
         this.icon = icon;
-        this.probability = 1 / (expectedTimeInSeconds * tickrate);
+        this.probability = tickrate / (expectedTimeInSeconds * 1000);
 
         this.options = options;
     }
@@ -12,6 +12,7 @@ export class Event {
     fires(probabilityBoost) {
         if(probabilityBoost === undefined)
             probabilityBoost = 1;
-        return Math.random() < (this.probability * probabilityBoost);
+        const randomnes =  Math.random();
+        return randomnes < (this.probability * probabilityBoost);
     }
 }

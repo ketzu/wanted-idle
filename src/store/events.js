@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import {Event} from '../gamemechanic/Event';
 import {EventOption} from "../gamemechanic/EventOption";
+import {EventBus} from "../EventBus";
 
 // Event: title, icon, expectedTimeInSeconds, options
 // Option: text, icon, action, params, exclude
@@ -13,7 +14,8 @@ export const eventStore = {
         requirerevolver: {}
     },
     getters: {
-        events: (state) => state.waiting
+        events: (state) => state.waiting,
+        excludeds: (state) => state.excluded
     },
     mutations: {
         newGame(state) {
@@ -71,11 +73,11 @@ export const eventStore = {
                     new EventOption("A federal crime?", require("@/assets/icons/cuffs.png")),
                     new EventOption("Hardly a crime!", require("@/assets/icons/bag_money.png"), "unlockAction", "printmoney", ['robBankToPrintMoney','treasureHuntToPrintMoney','robGraveToPrintMoney'] )]),
                 treasureHuntToPrintMoney: new Event("You found a money press!", require("@/assets/icons/book.png"), 280, [
-                    new EventOption("A federal crime!", require("@/assets/icons/cuffs.png")),
-                    new EventOption("Noone woudl know.", require("@/assets/icons/bag_money.png"), "unlockAction", "printmoney", ['robBankToPrintMoney','treasureHuntToPrintMoney','robGraveToPrintMoney'] )]),
-                treasureHuntToRobGrave: new Event("Rich people like trains!", require("@/assets/icons/train.png"), 160, [
-                    new EventOption("Let's ask them!", require("@/assets/icons/carriage_coal.png"), "unlockAction", "graverobbery", ['treasureHuntToRobGrave'] ),
-                    new EventOption("Just...how?", require("@/assets/icons/white_flag.png"))]),
+                    new EventOption("No prison!", require("@/assets/icons/cuffs.png")),
+                    new EventOption("Noone would know.", require("@/assets/icons/bag_money.png"), "unlockAction", "printmoney", ['robBankToPrintMoney','treasureHuntToPrintMoney','robGraveToPrintMoney'] )]),
+                treasureHuntToRobGrave: new Event("Your treasure seems to be a grave.", require("@/assets/icons/signpost.png"), 160, [
+                    new EventOption("Oh even better!", require("@/assets/icons/skull_person.png"), "unlockAction", "graverobbery", ['treasureHuntToRobGrave'] ),
+                    new EventOption("That's sacred!", require("@/assets/icons/totem.png"))]),
                 robGraveToPrintMoney: new Event("Was this a federal grave?", require("@/assets/icons/book.png"), 180, [
                     new EventOption("Rather the skulls!", require("@/assets/icons/skull_person.png")),
                     new EventOption("A money press!", require("@/assets/icons/bag_money.png"), "unlockAction", "printmoney", ['robBankToPrintMoney','treasureHuntToPrintMoney','robGraveToPrintMoney'] )]),
@@ -85,13 +87,13 @@ export const eventStore = {
                 begToBountyHunter: new Event("You know the face of that bastard!", require("@/assets/icons/wanted_poster_10000.png"), 90, [
                     new EventOption("Let's ask!", require("@/assets/icons/hand_gun.png"), "unlockAction", "bountyhunter", ['telegrapherToBountyHunter','begToBountyHunter'] ),
                     new EventOption("Don't think so.", require("@/assets/icons/fishing_rod.png"))]),
-                thievToRob: new Event("'What'cha doin there?", require("@/assets/icons/donkey.png"), 90, [
+                thievToRob: new Event("'What'cha doin there?'", require("@/assets/icons/donkey.png"), 90, [
                     new EventOption("Nothing...", require("@/assets/icons/hand_gun.png"), "unlockAction", "rob", ['thievToRob'] ),
                     new EventOption("Nothing!!", require("@/assets/icons/cactus.png"))]),
                 mobsterToAssasinate: new Event("'Can ya' go n'further on th'a next?'", require("@/assets/icons/skull_person.png"), 90, [
                     new EventOption("Su'a!", require("@/assets/icons/shaving_knive.png"), "unlockAction", "assassinate", ['mobsterToAssasinate'] ),
                     new EventOption("Wha???", require("@/assets/icons/glass_bottle.png"))]),
-                moneyToRevolver: new Event("'Can ya' go n'further on th'a next?'", require("@/assets/icons/revolver.png"), 90, [
+                moneyToRevolver: new Event("Maybe you should buy a weapon?", require("@/assets/icons/revolver.png"), 90, [
                     new EventOption("Buy it!", require("@/assets/icons/holster_revolver.png"), "unlockAction", "", ['moneyToRevolver'] ),
                     new EventOption("No need.", require("@/assets/icons/dream_catcher.png"))])
             };
@@ -112,6 +114,9 @@ export const eventStore = {
         },
         excludeEvent(state, name) {
             Vue.set(state.excluded, name, true);
+            const excludedindex = state.waiting.findIndex(e => e.title === state.all[name].title);
+            if(excludedindex > -1)
+                Vue.delete(state.waiting, excludedindex);
         }
     },
     actions: {
@@ -119,12 +124,12 @@ export const eventStore = {
             const index = state.waiting.findIndex(e => e.title === eventtitle);
             if(index > -1){
                 const optionindex = state.waiting[index].options.findIndex((e) => e.text === optiontitle);
+                commit('removeEvent', index);
                 if(optionindex > -1){
                     for(let eventname of state.waiting[index].options[optionindex].exclude) {
                         commit('excludeEvent', eventname);
                     }
                 }
-                commit('removeEvent', index);
             }
         },
         checkEvent({state, commit, rootState}, value) {
@@ -133,6 +138,7 @@ export const eventStore = {
                     return;
                 if(state.all[value].fires()) {
                     commit('addEvent', value);
+                    EventBus.$emit('EventFired', value);
                 }
             }
         }
