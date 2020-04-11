@@ -22,8 +22,6 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn @click="$store.commit('addCurrency', 1000)">Money.</v-btn>
-
       <EventsStreamDisplay></EventsStreamDisplay>
       <MoneyStreamDisplay></MoneyStreamDisplay>
 
