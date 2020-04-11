@@ -21,7 +21,7 @@
                                     </v-list-item-avatar>
 
                                     <v-list-item-content>
-                                        <v-list-item-title>{{(ticks/tickrate/60).toFixed(0)}} min {{(ticks/tickrate % 60).toFixed(0)}} s</v-list-item-title>
+                                        <v-list-item-title>{{(playtime/60).toFixed(0)}} min {{(playtime % 60).toFixed(0)}} s</v-list-item-title>
                                         <v-list-item-subtitle>Time taken</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
@@ -77,6 +77,9 @@
             ...mapGetters(['end', 'ticks', 'goodness', 'badness', 'revolver']),
             tickrate() {
                 return tickrate;
+            },
+            playtime() {
+                return this.ticks*tickrate/1000;
             },
             revolvercost() {
                 return revolvercost;
