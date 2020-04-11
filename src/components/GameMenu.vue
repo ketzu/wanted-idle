@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-row justify="center" class="mx-3">
-            <v-col align="center" cols="6" v-if="initialized" class="pa-3">
+            <v-col align="center" cols="6" v-if="initialized && !finished" class="pa-3">
                 <v-card color="#C4A56C" class="py-3" ripple @click="select" outlined style="border-color: black;">
                     <span class="display-1">
                         Continue
@@ -25,7 +25,7 @@
     export default {
         name: "GameMenu",
         computed: {
-            ...mapGetters(['int', 'str', 'dex', 'initialized'])
+            ...mapGetters(['int', 'str', 'dex', 'initialized','finished'])
         },
         methods: {
             newGame() {

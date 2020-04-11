@@ -22,6 +22,8 @@
 
       <v-spacer></v-spacer>
 
+      <v-btn @click="$store.commit('addCurrency', 1000)">Money.</v-btn>
+
       <EventsStreamDisplay></EventsStreamDisplay>
       <MoneyStreamDisplay></MoneyStreamDisplay>
 
@@ -41,27 +43,28 @@
       <v-progress-linear class="my-2"
               color="#4B3309"
               background-color="#C4A56C"
-              :value="money*100/10000"
+              :value="money*100/goalMoney"
               height="40"
               style="font-family: QuentinCaps; border-top: thin solid black; border-bottom: thin solid black;"
       >
         <v-spacer></v-spacer>
         <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
-        {{ Math.floor(money) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
+        {{ Math.floor(money) }} of {{ goalMoney.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
         <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
         <v-spacer></v-spacer>
       </v-progress-linear>
 
       <Settings v-if="settings"></Settings>
-      <GameMenu v-if="!started" v-on:selected="start"></GameMenu>
-      <EventList v-if="started"></EventList>
-      <GameScreen v-if="started"></GameScreen>
+      <GameMenu v-if="!dotick" v-on:selected="start"></GameMenu>
+      <End v-if="end !== undefined"></End>
+      <EventList v-if="dotick"></EventList>
+      <GameScreen v-if="dotick"></GameScreen>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 import GameMenu from "@/components/GameMenu";
 import GameScreen from "@/components/GameScreen";
 import {tickrate} from "./gamemechanic/constants";
@@ -69,6 +72,7 @@ import MoneyStreamDisplay from "./components/MoneyStreamDisplay";
 import Settings from "./components/Settings";
 import EventList from "./components/EventList";
 import EventsStreamDisplay from "./components/EventsStreamDisplay";
+  import End from "./components/End";
 
 export default {
   name: 'App',
@@ -80,20 +84,21 @@ export default {
     MoneyStreamDisplay,
     GameScreen,
     GameMenu,
+    End
   },
   data: () => ({
-    started: false,
     musicfile: new Audio(require('@/assets/sounds/bg_antti.mp3')),
     settings: false
   }),
   computed: {
-    ...mapGetters(['initialized','music','effects','musicvolume','effectsvolume', 'revolver', 'ticks', 'money'])
+    ...mapGetters(['initialized','music','effects','musicvolume','effectsvolume', 'revolver', 'ticks', 'money', 'dotick', 'goalMoney', 'end'])
   },
   methods: {
+    ...mapMutations(['startTicking']),
     start() {
-      if(this.started)
+      if(this.dotick)
         return;
-      this.started = true;
+      this.startTicking();
 
       let last = null;
       let progress = 0;
@@ -112,7 +117,8 @@ export default {
           progress -= tickrate;
           self.$store.dispatch('tick');
         }
-        window.requestAnimationFrame(tick);
+        if(self.dotick)
+          window.requestAnimationFrame(tick);
       }
       window.requestAnimationFrame(tick);
     }

@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import {actionStore} from "./actions";
 import {eventStore} from "./events";
 import {EventBus} from "../EventBus";
-import {revolvercost} from "../gamemechanic/constants";
+import {ends, revolvercost, goalMoney} from "../gamemechanic/constants";
 
 Vue.use(Vuex);
 
@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     initialized: false,
     ticks: 0,
+    dotick: false,
     money: 0,
     revolver: false,
     music: true,
@@ -18,19 +19,24 @@ export default new Vuex.Store({
     musicvolume: 0.25,
     effectsvolume: 1,
     goodyshoes: 0,
-    badguy: 0
+    badguy: 0,
+    selectedEnd: -1
   },
   getters: {
     initialized: (state) => state.initialized,
     money: (state) => state.money,
     ticks: (state) => state.ticks,
+    dotick: (state) => state.dotick,
     revolver: (state) => state.revolver,
     music: (state) => state.music,
     effects: (state) => state.effects,
     musicvolume: (state) => state.musicvolume,
     effectsvolume: (state) => state.effectsvolume,
     goodness: (state) => state.goodyshoes,
-    badness: (state) => state.badguy
+    badness: (state) => state.badguy,
+    goalMoney: () => goalMoney,
+    end: (state) => state.selectedEnd > -1? ends[state.selectedEnd] : undefined,
+    finished: (state) => state.selectedEnd > -1
   },
   mutations: {
     toggleffects(state) {
@@ -52,11 +58,13 @@ export default new Vuex.Store({
       state.effectsvolume = volume;
     },
     newGame(state) {
+      state.dotick = false;
       state.goodyshoes = 0;
-      state.badness = 0;
+      state.badguy = 0;
       state.money = 0;
       state.ticks = 0;
       state.revolver = false;
+      state.selectedEnd = -1;
       state.initialized = true;
     },
     addCurrency(state, value) {
@@ -68,6 +76,15 @@ export default new Vuex.Store({
     unlockRevolver(state) {
       state.revolver = true;
       state.money -= revolvercost;
+    },
+    startTicking(state) {
+      state.dotick = true;
+    },
+    stopTicking(state) {
+      state.dotick = false;
+    },
+    setEnd(state, value) {
+      state.selectedEnd = value;
     }
   },
   actions: {
@@ -81,6 +98,17 @@ export default new Vuex.Store({
       }
       if(state.money > revolvercost) {
         dispatch('checkEvent', "moneyToRevolver");
+      }
+
+      if(state.money >= goalMoney) {
+          commit('stopTicking');
+          if(state.badguy > state.goodyshoes + 100) {
+            commit('setEnd', 0);
+          }else if(state.badguy === 0) {
+            commit('setEnd', 2);
+          }else{
+            commit('setEnd', 1);
+          }
       }
     },
     gainMoney({commit}, value){

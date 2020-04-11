@@ -18,6 +18,8 @@ export const actionStore = {
     },
     mutations: {
         newGame(state) {
+            state.active = undefined;
+
             state.actions = {
                 // base
                 begging: new Action("Beg", "Placeholder Description Begging", require('@/assets/icons/metal_cup.png'), new ProbabilisticAction(0.0091, 1.82), ["begToStealHorse","begToTreasureHunt","begToTelegrapher","begToBountyHunter"]),
