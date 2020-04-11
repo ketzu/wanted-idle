@@ -30,7 +30,7 @@
       <div class="d-flex align-center">
         <span class="display-1">
           <span style="font-family: QuentinCaps; color: black;">
-          {{ value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+          {{ money.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
           </span>
         </span>
         <img src="@/assets/icons/bag_money.png" height="45" style="margin-top: -8px;">
@@ -41,13 +41,13 @@
       <v-progress-linear class="my-2"
               color="#4B3309"
               background-color="#C4A56C"
-              :value="value/10000*100"
+              :value="money*100/10000"
               height="40"
               style="font-family: QuentinCaps; border-top: thin solid black; border-bottom: thin solid black;"
       >
         <v-spacer></v-spacer>
         <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
-        {{ Math.floor(value) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
+        {{ Math.floor(money) }} of {{ "10000".toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
         <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
         <v-spacer></v-spacer>
       </v-progress-linear>
@@ -87,10 +87,7 @@ export default {
     settings: false
   }),
   computed: {
-    value() {
-      return this.$store.getters.money;
-    },
-    ...mapGetters(['initialized','music','effects','musicvolume','effectsvolume', 'revolver'])
+    ...mapGetters(['initialized','music','effects','musicvolume','effectsvolume', 'revolver', 'ticks', 'money'])
   },
   methods: {
     start() {

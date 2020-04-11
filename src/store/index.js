@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {actionStore} from "./actions";
 import {eventStore} from "./events";
+import {EventBus} from "../EventBus";
+import {revolvercost} from "../gamemechanic/constants";
 
 Vue.use(Vuex);
-
-const revolvercost = 30;
 
 export default new Vuex.Store({
   state: {
@@ -16,21 +16,31 @@ export default new Vuex.Store({
     music: true,
     effects: true,
     musicvolume: 0.25,
-    effectsvolume: 1
+    effectsvolume: 1,
+    goodyshoes: 0,
+    badguy: 0
   },
   getters: {
     initialized: (state) => state.initialized,
     money: (state) => state.money,
-    tickrate: (state) => state.tickrate,
+    ticks: (state) => state.ticks,
     revolver: (state) => state.revolver,
     music: (state) => state.music,
     effects: (state) => state.effects,
     musicvolume: (state) => state.musicvolume,
-    effectsvolume: (state) => state.effectsvolume
+    effectsvolume: (state) => state.effectsvolume,
+    goodness: (state) => state.goodyshoes,
+    badness: (state) => state.badguy
   },
   mutations: {
     toggleffects(state) {
       state.effects = !state.effects;
+    },
+    addGoodness(state, value){
+      state.goodyshoes += value;
+    },
+    addBadness(state, value){
+      state.badguy += value;
     },
     togglmusic(state) {
       state.music = !state.music;
@@ -42,10 +52,12 @@ export default new Vuex.Store({
       state.effectsvolume = volume;
     },
     newGame(state) {
+      state.goodyshoes = 0;
+      state.badness = 0;
       state.money = 0;
       state.ticks = 0;
-      state.initialized = true;
       state.revolver = false;
+      state.initialized = true;
     },
     addCurrency(state, value) {
       state.money += value;
@@ -71,8 +83,18 @@ export default new Vuex.Store({
         dispatch('checkEvent', "moneyToRevolver");
       }
     },
+    gainMoney({commit}, value){
+      commit('addCurrency', value);
+      EventBus.$emit('gainedCurrency', value);
+    },
     unlockRevolver({commit}) {
       commit('unlockRevolver');
+    },
+    gainGoodness({commit}){
+      commit('addGoodness', 1);
+    },
+    gainBadness({commit}, value){
+      commit('addBadness', value);
     }
   },
   modules: {

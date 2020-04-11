@@ -3,7 +3,7 @@ import {Action} from "../gamemechanic/Action";
 import {SteadyAction} from "../gamemechanic/SteadyAction";
 import {ProbabilisticAction} from "../gamemechanic/ProbabilisticAction";
 import {EventBus} from "../EventBus"
-import {tickrate} from "../gamemechanic/constants";
+import {badActions, goodActions, tickrate} from "../gamemechanic/constants";
 
 export const actionStore = {
     state: {
@@ -77,14 +77,21 @@ export const actionStore = {
         tick({dispatch, commit, state, rootState}){
             if(state.active >= 0 && state.active < state.unlockedactions.length) {
                 commit('progress');
-                const reward = state.unlockedactions[state.active].retrieve();
+                let curaction = state.unlockedactions[state.active];
+                const reward = curaction.retrieve();
                 if(reward !== 0){
                     commit('addCurrency', reward);
                     EventBus.$emit('gainedCurrency', reward);
                 }
+
+                if(goodActions[curaction.title] !== undefined)
+                    commit('addGoodness', goodActions[curaction.title]);
+                if(badActions[curaction.title] !== undefined)
+                    commit('addBadness', badActions[curaction.title]);
+
                 if(rootState.ticks < tickrate * 10)
                     return;
-                for(let eventname of state.unlockedactions[state.active].events) {
+                for(let eventname of curaction.events) {
                     dispatch('checkEvent', eventname);
                 }
             }
