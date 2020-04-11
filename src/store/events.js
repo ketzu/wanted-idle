@@ -95,7 +95,7 @@ export const eventStore = {
                 mobsterToAssasinate: new Event("'Can ya' go n'further on th'a next?'", require("@/assets/icons/skull_person.png"), 90, [
                     new EventOption("Su'a!", require("@/assets/icons/shaving_knive.png"), "unlockAction", "assassinate", ['mobsterToAssasinate'] ),
                     new EventOption("Wha???", require("@/assets/icons/glass_bottle.png"))]),
-                moneyToRevolver: new Event("Maybe you should buy a weapon?", require("@/assets/icons/revolver.png"), 90, [
+                moneyToRevolver: new Event("Maybe you should buy a weapon?", require("@/assets/icons/revolver.png"), 1, [
                     new EventOption("Buy it!", require("@/assets/icons/holster_revolver.png"), "unlockRevolver", "", ['moneyToRevolver'] ),
                     new EventOption("No need.", require("@/assets/icons/dream_catcher.png"))])
             };

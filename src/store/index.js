@@ -5,6 +5,8 @@ import {eventStore} from "./events";
 
 Vue.use(Vuex);
 
+const revolvercost = 30;
+
 export default new Vuex.Store({
   state: {
     initialized: false,
@@ -53,6 +55,7 @@ export default new Vuex.Store({
     },
     unlockRevolver(state) {
       state.revolver = true;
+      state.money -= revolvercost;
     }
   },
   actions: {
@@ -64,7 +67,7 @@ export default new Vuex.Store({
       if(state.money > 10) {
         dispatch('checkEvent', "moneyToGamble");
       }
-      if(state.money > 20) {
+      if(state.money > revolvercost) {
         dispatch('checkEvent', "moneyToRevolver");
       }
     },

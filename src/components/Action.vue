@@ -16,7 +16,7 @@
             <Level :level="level"></Level>
         </v-list-item>
 
-        <v-progress-linear v-if="active || action.counter !== undefined"
+        <v-progress-linear
                 color="#4B3309"
                 :value="action.counter*100/action.ticks || 0"
                 height="15"

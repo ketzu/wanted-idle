@@ -25,8 +25,9 @@
             }
         },
         methods: {
-            eventUnlocked(value) {
-                console.log(value);
+            eventUnlocked() {
+                for(let sound of eventsounds)
+                    sound.play();
             }
         },
         computed: {
