@@ -14,7 +14,7 @@ export const actionStore = {
     },
     getters: {
         active: (state) => state.active,
-        actions: (state) => state.unlockedactions
+        actions: (state) => state.unlockedactions.map(u => state.actions[u])
     },
     mutations: {
         newGame(state) {
@@ -53,9 +53,9 @@ export const actionStore = {
             Vue.set(state.actions, "kidnap", new Action("Kidnap", "At least you are not killing anyone.", require('@/assets/icons/lasso.png'), new ProbabilisticAction(0.00167,30), [], [state.actions["breakin"]], true));
 
             state.unlockedactions = [
-                state.actions["begging"],
-                state.actions["thieving"],
-                state.actions["boxing"]
+                "begging",
+                "thieving",
+                "boxing"
             ];
             state.unlocked = {
                 begging: true,
@@ -64,10 +64,10 @@ export const actionStore = {
             };
         },
         progress(state) {
-            state.unlockedactions[state.active].tick();
+            state.actions[state.unlockedactions[state.active]].tick();
         },
         unlockAction(state, value) {
-            Vue.set(state.unlockedactions, state.unlockedactions.length, state.actions[value]);
+            Vue.set(state.unlockedactions, state.unlockedactions.length, value);
             state.unlocked[value] = true;
         },
         setActive(state, value) {
@@ -79,7 +79,7 @@ export const actionStore = {
         tick({dispatch, commit, state, rootState}){
             if(state.active >= 0 && state.active < state.unlockedactions.length) {
                 commit('progress');
-                let curaction = state.unlockedactions[state.active];
+                let curaction = state.actions[state.unlockedactions[state.active]];
                 const reward = curaction.retrieve();
                 if(reward !== 0){
                     commit('addCurrency', reward);
