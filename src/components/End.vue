@@ -58,6 +58,28 @@
                                         <v-list-item-subtitle>Revolver Aquired</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
+
+                                <v-list-item two-line>
+                                    <v-list-item-avatar tile>
+                                        <v-img :src="require('@/assets/icons/revolver.png')" contain max-height="30"></v-img>
+                                    </v-list-item-avatar>
+
+                                    <v-list-item-content>
+                                        <v-list-item-title>{{endsReached}} / {{ends.length}}</v-list-item-title>
+                                        <v-list-item-subtitle>Different Ends Reached</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+
+                                <v-list-item two-line>
+                                    <v-list-item-avatar tile>
+                                        <v-img :src="require('@/assets/icons/revolver.png')" contain max-height="30"></v-img>
+                                    </v-list-item-avatar>
+
+                                    <v-list-item-content>
+                                        <v-list-item-title>{{timesReachedEnd}}</v-list-item-title>
+                                        <v-list-item-subtitle>Times the End was Reached</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
                             </v-list>
                         </v-col>
                     </v-row>
@@ -69,12 +91,12 @@
 
 <script>
     import {mapGetters} from "vuex";
-    import {tickrate, revolvercost} from "../gamemechanic/constants";
+    import {tickrate, revolvercost, ends} from "../gamemechanic/constants";
 
     export default {
         name: "End",
         computed: {
-            ...mapGetters(['end', 'ticks', 'goodness', 'badness', 'revolver']),
+            ...mapGetters(['end', 'ticks', 'goodness', 'badness', 'revolver', 'endsReached', 'timesReachedEnd']),
             tickrate() {
                 return tickrate;
             },
@@ -83,6 +105,9 @@
             },
             revolvercost() {
                 return revolvercost;
+            },
+            ends() {
+                return ends;
             }
         }
     }

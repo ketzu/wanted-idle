@@ -22,6 +22,10 @@
 
       <v-spacer></v-spacer>
 
+      <v-btn @click="$store.commit('addCurrency',1000)">
+        Money!
+      </v-btn>
+
       <EventsStreamDisplay></EventsStreamDisplay>
       <MoneyStreamDisplay></MoneyStreamDisplay>
 
@@ -39,7 +43,7 @@
 
     <v-content>
       <v-progress-linear class="my-2"
-              color="#4B3309"
+              color="#A38244"
               background-color="#C4A56C"
               :value="money*100/goalMoney"
               height="40"
@@ -117,7 +121,7 @@ export default {
           progress -= tickrate;
           self.$store.dispatch('tick');
         }
-        if(self.dotick)
+        if(self.$store.getters['dotick'])
           window.requestAnimationFrame(tick);
       }
       window.requestAnimationFrame(tick);

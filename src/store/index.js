@@ -24,7 +24,9 @@ export default new Vuex.Store({
     effectsvolume: 1,
     goodyshoes: 0,
     badguy: 0,
-    selectedEnd: -1
+    selectedEnd: -1,
+    timesReachedEnd: 0,
+    endsReached: {}
   },
   getters: {
     initialized: (state) => state.initialized,
@@ -40,7 +42,9 @@ export default new Vuex.Store({
     badness: (state) => state.badguy,
     goalMoney: () => goalMoney,
     end: (state) => state.selectedEnd > -1? ends[state.selectedEnd] : undefined,
-    finished: (state) => state.selectedEnd > -1
+    finished: (state) => state.selectedEnd > -1,
+    endsReached: (state) => Array.from(ends.keys()).map((n) => state.endsReached[n] === true? 1 : 0).reduce((a,b) => a+b, 0),
+    timesReachedEnd: (state) => state.timesReachedEnd
   },
   mutations: {
     loadFromStore(state) {
@@ -123,6 +127,8 @@ export default new Vuex.Store({
       state.dotick = false;
     },
     setEnd(state, value) {
+      state.timesReachedEnd += 1;
+      state.endsReached[value] = true;
       state.selectedEnd = value;
     }
   },

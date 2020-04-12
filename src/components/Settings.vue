@@ -27,16 +27,23 @@
                     <h2>Reset Data</h2>
                 </v-card-title>
                 <v-card-text>
-                    Lol, as if it were saved right now...
+                    <v-btn @click="hardreset" depressed color="red darken-4" x-large>
+                        On your own risk.
+                    </v-btn>
                 </v-card-text>
             </v-card>
         </v-col>
         <v-col align="center" cols="6">
             <v-card color="#C4A56C" class="mx-5" outlined style="border-color: black;">
+                <v-card-title>
+                    <h2>Credits</h2>
+                </v-card-title>
                 <v-card-text>
-                    A game by David of <a href="http://shittyidle.com">"ShittyIdle Studio"</a>.
+                    A game by <br> David of <a href="http://shittyidle.com">"ShittyIdle Studio"</a>
+                    <br><br>
+                    The awesome music was made by
                     <br>
-                    The awesome music was made by <a href="http://anttismusic.blogspot.fi">Antti Luode</a>.
+                    <a href="http://anttismusic.blogspot.fi">Antti Luode</a>
                 </v-card-text>
             </v-card>
         </v-col>
@@ -45,6 +52,7 @@
 
 <script>
     import {mapGetters, mapMutations} from "vuex";
+    import {storagename} from "../gamemechanic/constants";
 
     export default {
         name: "Settings",
@@ -69,6 +77,12 @@
         },
         methods: {
             ...mapMutations(['seteffects', 'setmusic']),
+            hardreset() {
+                // Hard Reset: Delete State
+                localStorage.removeItem(storagename);
+                // Reload page
+                location.reload();
+            }
         }
     }
 </script>
