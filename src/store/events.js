@@ -95,7 +95,7 @@ export const eventStore = {
         waiting: []
     },
     getters: {
-        events: (state) => state.waiting,
+        events: (state) => state.waiting.map(w => all[w]),
         excludeds: (state) => state.excluded
     },
     mutations: {
@@ -106,7 +106,7 @@ export const eventStore = {
         },
         addEvent(state, value) {
             if(all[value] !== undefined){
-                Vue.set(state.waiting, state.waiting.length, all[value]);
+                Vue.set(state.waiting, state.waiting.length, value);
                 Vue.set(state.unlocked, value,  true);
             }
         },
@@ -115,7 +115,7 @@ export const eventStore = {
         },
         excludeEvent(state, name) {
             Vue.set(state.excluded, name, true);
-            const excludedindex = state.waiting.findIndex(e => e.title === all[name].title);
+            const excludedindex = state.waiting.findIndex(e => e === name);
             if(excludedindex > -1){
                 Vue.delete(state.waiting, excludedindex);
             }
@@ -123,12 +123,11 @@ export const eventStore = {
     },
     actions: {
         fulfilEvent({state, commit}, {eventtitle, optiontitle}) {
-            const index = state.waiting.findIndex(e => e.title === eventtitle);
+            const index = state.waiting.findIndex(e => all[e].title === eventtitle);
             if(index > -1){
-                const optionindex = state.waiting[index].options.findIndex((e) => e.text === optiontitle);
-                const exclusions = state.waiting[index].options[optionindex].exclude;
+                const exclusions = all[state.waiting[index]].options.find((e) => e.text === optiontitle).exclude;
                 commit('removeEvent', index);
-                if(optionindex > -1){
+                if(exclusions !== undefined){
                     for(let eventname of exclusions) {
                         commit('excludeEvent', eventname);
                     }
