@@ -25,9 +25,9 @@ export class Action {
         this.reward = 0;
     }
 
-    tick() {
+    tick(actions) {
         this.level.tick();
-        const prebonus =  Math.max(1, ...this.predecessors.map(p => p.bonus()));
+        const prebonus =  Math.max(1, ...this.predecessors.map(p => actions[p].bonus()));
         this.reward += this.action.tick() * this.level.bonus() * prebonus * this.leafbonus;
     }
 
@@ -39,5 +39,9 @@ export class Action {
 
     bonus() {
         return this.level.bonus();
+    }
+
+    toJSON() {
+        return {__objtype: "Action", ...this};
     }
 }

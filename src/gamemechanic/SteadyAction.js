@@ -15,4 +15,8 @@ export class SteadyAction {
         }
         return 0;
     }
+
+    toJSON() {
+        return {__objtype: "SteadyAction", ...this};
+    }
 }

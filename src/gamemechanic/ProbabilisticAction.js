@@ -18,4 +18,8 @@ export class ProbabilisticAction {
         }
         return 0;
     }
+
+    toJSON() {
+        return {__objtype: "ProbabilisticAction", ...this};
+    }
 }
