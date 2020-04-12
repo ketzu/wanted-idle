@@ -61,7 +61,7 @@
 
                                 <v-list-item two-line>
                                     <v-list-item-avatar tile>
-                                        <v-img :src="require('@/assets/icons/revolver.png')" contain max-height="30"></v-img>
+                                        <v-img :src="require('@/assets/icons/signpost.png')" contain max-height="30"></v-img>
                                     </v-list-item-avatar>
 
                                     <v-list-item-content>
@@ -72,7 +72,7 @@
 
                                 <v-list-item two-line>
                                     <v-list-item-avatar tile>
-                                        <v-img :src="require('@/assets/icons/revolver.png')" contain max-height="30"></v-img>
+                                        <v-img :src="require('@/assets/icons/skull_person.png')" contain max-height="30"></v-img>
                                     </v-list-item-avatar>
 
                                     <v-list-item-content>
