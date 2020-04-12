@@ -3,7 +3,11 @@ import Vuex from 'vuex'
 import {actionStore} from "./actions";
 import {eventStore} from "./events";
 import {EventBus} from "../EventBus";
-import {ends, revolvercost, goalMoney} from "../gamemechanic/constants";
+import {ends, revolvercost, goalMoney, storagename} from "../gamemechanic/constants";
+import {ProbabilisticAction} from "../gamemechanic/ProbabilisticAction";
+import {SteadyAction} from "../gamemechanic/SteadyAction";
+import {Action} from "../gamemechanic/Action";
+import {Leveling} from "../gamemechanic/Leveling";
 
 Vue.use(Vuex);
 
@@ -39,6 +43,41 @@ export default new Vuex.Store({
     finished: (state) => state.selectedEnd > -1
   },
   mutations: {
+    loadFromStore(state) {
+      let deserialized = JSON.parse(localStorage.getItem(storagename),(key, value) => {
+          if(typeof value !== 'object' || value === null)
+            return value;
+          if(value.__objtype !== undefined) {
+            switch (value.__objtype) {
+              case "Leveling": {
+                let ret = new Leveling();
+                ret.level = value.level;
+                ret.exp = value.exp;
+                return ret;
+              }
+              case "ProbabilisticAction": return new ProbabilisticAction(value.probability, value.payoff);
+              case "SteadyAction": {
+                let ret = new SteadyAction(value.ticks, value.payoff);
+                ret.counter = value.counter;
+                return ret;
+              }
+              case "Action": {
+                // using icon here sucks!
+                let ret = new Action(value.title, value.description, value.icon, value.action, value.events, value.predecessors, value.leaf);
+                ret.level = value.level;
+                return ret;
+              }
+            }
+          }
+          return value;
+        });
+
+        this.replaceState(
+            Object.assign(state, deserialized)
+        );
+
+        state.dotick = false;
+    },
     toggleffects(state) {
       state.effects = !state.effects;
     },

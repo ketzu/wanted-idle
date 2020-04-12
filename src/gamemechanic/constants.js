@@ -1,5 +1,7 @@
 import {End} from "./End";
 
+export const storagename = "wanted-idle-v1";
+
 export const tickrate = 100;
 
 export const revolvercost = 30;

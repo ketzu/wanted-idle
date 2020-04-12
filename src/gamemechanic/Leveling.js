@@ -27,4 +27,8 @@ export class Leveling {
     baselevelexp() {
         return this.levelups[this.level-1];
     }
+
+    toJSON() {
+        return {__objtype: "Leveling", ...this};
+    }
 }

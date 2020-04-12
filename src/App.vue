@@ -65,7 +65,7 @@
   import {mapGetters, mapMutations} from 'vuex';
 import GameMenu from "@/components/GameMenu";
 import GameScreen from "@/components/GameScreen";
-import {tickrate} from "./gamemechanic/constants";
+  import {storagename, tickrate} from "./gamemechanic/constants";
 import MoneyStreamDisplay from "./components/MoneyStreamDisplay";
 import Settings from "./components/Settings";
 import EventList from "./components/EventList";
@@ -86,7 +86,8 @@ export default {
   },
   data: () => ({
     musicfile: new Audio(require('@/assets/sounds/bg_antti.mp3')),
-    settings: false
+    settings: false,
+    started: false
   }),
   computed: {
     ...mapGetters(['initialized','music','effects','musicvolume','effectsvolume', 'revolver', 'ticks', 'money', 'dotick', 'goalMoney', 'end'])
@@ -94,6 +95,7 @@ export default {
   methods: {
     ...mapMutations(['startTicking']),
     start() {
+      this.started = true;
       if(this.dotick)
         return;
       this.startTicking();
@@ -131,6 +133,11 @@ export default {
     },
     musicvolume (newvalue) {
       this.musicfile.volume = newvalue;
+    }
+  },
+  mounted() {
+    if(localStorage.getItem(storagename)){
+      this.$store.commit("loadFromStore");
     }
   }
 };
