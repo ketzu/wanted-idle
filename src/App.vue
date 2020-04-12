@@ -47,7 +47,7 @@
       >
         <v-spacer></v-spacer>
         <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
-        {{ Math.floor(money) }} of {{ goalMoney.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
+        {{ Math.floor(money).toLocaleString(undefined,  { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }} of {{ goalMoney.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
         <v-img v-if="revolver" :src="require('@/assets/icons/revolver.png')" contain max-height="20"></v-img>
         <v-spacer></v-spacer>
       </v-progress-linear>
