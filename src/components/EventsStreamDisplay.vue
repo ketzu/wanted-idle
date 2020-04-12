@@ -1,11 +1,5 @@
 <template>
-    <div class="display-1">
-        <span :key="value.id" v-for="(value,index) of gaindvalues">
-            <span :style="'z-index:'+(22+index)+'; font-family: QuentinCaps; color: black; position:fixed; margin-top:-20px;'" class="fadeInAndOut">
-                <v-icon color="black" style="margin-top:-15px;">fas fa-plus</v-icon>
-                {{ value.value.toFixed(2) }}
-            </span>
-        </span>
+    <div>
     </div>
 </template>
 
@@ -13,29 +7,50 @@
     import {EventBus} from "../EventBus";
     import {mapGetters} from "vuex";
 
-    const eventsounds = [
-    ];
+    const eventsounds = {
+        begToStealHorse: new Audio(require('@/assets/sounds/error_01.mp3')),
+        begToTreasureHunt: new Audio(require('@/assets/sounds/error_01.mp3')),
+        begToTelegrapher: new Audio(require('@/assets/sounds/error_01.mp3')),
+        thievToStealHorse: new Audio(require('@/assets/sounds/error_01.mp3')),
+        boxToMobster: new Audio(require('@/assets/sounds/error_01.mp3')),
+        stealHorseToStealCattle: new Audio(require('@/assets/sounds/error_01.mp3')),
+        telegrapherToDeadEnd: new Audio(require('@/assets/sounds/error_01.mp3')),
+        telegrapherToTreasureHunt: new Audio(require('@/assets/sounds/error_01.mp3')),
+        mobsterToBreakIn: new Audio(require('@/assets/sounds/Selected 3.mp3')),
+        breakInToKidnap: new Audio(require('@/assets/sounds/error_01.mp3')),
+        breakInToTrade: new Audio(require('@/assets/sounds/error_01.mp3')),
+        gambleToTrade: new Audio(require('@/assets/sounds/buy_cashregister_01.mp3')),
+        moneyToGamble: new Audio(require('@/assets/sounds/chips_multi_slide_002.wav')),
+        assassinateToTerrorize: new Audio(require('@/assets/sounds/woodexplode_01.mp3')),
+        robToRobBank: new Audio(require('@/assets/sounds/error_01.mp3')),
+        robToRobTrain: new Audio(require('@/assets/sounds/error_01.mp3')),
+        robBankToPrintMoney: new Audio(require('@/assets/sounds/error_01.mp3')),
+        treasureHuntToPrintMoney: new Audio(require('@/assets/sounds/error_01.mp3')),
+        treasureHuntToRobGrave: new Audio(require('@/assets/sounds/error_01.mp3')),
+        robGraveToPrintMoney: new Audio(require('@/assets/sounds/error_01.mp3')),
+        telegrapherToBountyHunter: new Audio(require('@/assets/sounds/error_01.mp3')),
+        begToBountyHunter: new Audio(require('@/assets/sounds/error_01.mp3')),
+        thievToRob: new Audio(require('@/assets/sounds/error_01.mp3')),
+        mobsterToAssasinate: new Audio(require('@/assets/sounds/error_01.mp3')),
+        moneyToRevolver: new Audio(require('@/assets/sounds/error_01.mp3'))
+    };
 
     export default {
         name: "EventsStreamDisplay",
-        data: function () {
-            return {
-                gaindvalues: [],
-                idstore: 0
-            }
-        },
         methods: {
-            eventUnlocked() {
-                for(let sound of eventsounds)
-                    sound.play();
+            eventUnlocked(value) {
+                console.log(value);
+                if(eventsounds[value] instanceof Audio)
+                    eventsounds[value].play();
             }
         },
         computed: {
             ...mapGetters(['effects', 'effectsvolume'])
         },
         mounted() {
-            for(let sound of eventsounds){
-                sound.volume = this.effectsvolume;
+            for(let sound in eventsounds){
+                if(eventsounds[sound] instanceof Audio)
+                    eventsounds[sound].volume = this.effectsvolume;
             }
             EventBus.$on('EventFired', this.eventUnlocked);
         },
@@ -44,8 +59,9 @@
         },
         watch: {
             effectsvolume (newvalue) {
-                for(let sound of eventsounds){
-                    sound.volume = newvalue;
+                for(let sound in eventsounds){
+                    if(eventsounds[sound] instanceof Audio)
+                        eventsounds[sound].volume = newvalue;
                 }
             }
         }
