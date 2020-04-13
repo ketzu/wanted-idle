@@ -23,7 +23,7 @@
         moneyToGamble: new Audio(require('@/assets/sounds/chips_multi_slide_002.wav')),
         assassinateToTerrorize: new Audio(require('@/assets/sounds/woodexplode_01.mp3')),
         robToRobBank: new Audio(require('@/assets/sounds/shots.mp3')),
-        robToRobTrain: new Audio(require('@/assets/sounds/train_horn.mp3.mp3')),
+        robToRobTrain: new Audio(require('@/assets/sounds/train_horn.mp3')),
         robBankToPrintMoney: new Audio(require('@/assets/sounds/press.mp3')),
         treasureHuntToPrintMoney: new Audio(require('@/assets/sounds/press.mp3')),
         treasureHuntToRobGrave: new Audio(require('@/assets/sounds/shattering.wav')),
@@ -39,7 +39,6 @@
         name: "EventsStreamDisplay",
         methods: {
             eventUnlocked(value) {
-                console.log(value);
                 if(eventsounds[value] instanceof Audio)
                     eventsounds[value].play();
             }

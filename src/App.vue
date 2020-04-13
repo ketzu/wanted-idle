@@ -139,6 +139,7 @@ export default {
     if(localStorage.getItem(storagename)){
       this.$store.commit("loadFromStore");
     }
+    this.$store.dispatch('loadKongAPI');
   }
 };
 </script>

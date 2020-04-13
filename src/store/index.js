@@ -11,8 +11,11 @@ import {Leveling} from "../gamemechanic/Leveling";
 
 Vue.use(Vuex);
 
+let kongapi = undefined;
+
 export default new Vuex.Store({
   state: {
+    minticks: Infinity,
     initialized: false,
     ticks: 0,
     dotick: false,
@@ -130,13 +133,16 @@ export default new Vuex.Store({
       state.timesReachedEnd += 1;
       state.endsReached[value] = true;
       state.selectedEnd = value;
+      if(state.minticks > state.ticks) {
+        state.minticks = state.ticks;
+      }
     }
   },
   actions: {
     init({commit}) {
       commit('newGame');
     },
-    tick({state, commit, dispatch}) {
+    tick({state, commit, dispatch, getters}) {
       commit('tick');
       if(state.money > 10) {
         dispatch('checkEvent', "moneyToGamble");
@@ -154,6 +160,9 @@ export default new Vuex.Store({
           }else{
             commit('setEnd', 1);
           }
+        kongapi.stats.submit("minticks", state.minticks);
+        kongapi.stats.submit("timesReachedEnd", getters['timesReachedEnd']);
+        kongapi.stats.submit("endsReached", getters['endsReached']);
       }
     },
     gainMoney({commit}, value){
@@ -168,6 +177,16 @@ export default new Vuex.Store({
     },
     gainBadness({commit}, value){
       commit('addBadness', value);
+    },
+    loadKongAPI({state, getters}) {
+      // eslint-disable-next-line no-undef
+      kongregateAPI.loadAPI(()=>{
+        // eslint-disable-next-line no-undef
+        kongapi=kongregateAPI.getAPI();
+        kongapi.stats.submit("minticks", state.minticks);
+        kongapi.stats.submit("timesReachedEnd", getters['timesReachedEnd']);
+        kongapi.stats.submit("endsReached", getters['endsReached']);
+      });
     }
   },
   modules: {
