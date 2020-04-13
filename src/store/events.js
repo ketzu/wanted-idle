@@ -57,7 +57,7 @@ const all = {
         new EventOption("Hardly a crime!", require("@/assets/icons/bag_money.png"), "unlockAction", "printmoney", ['robBankToPrintMoney','treasureHuntToPrintMoney','robGraveToPrintMoney'] )]),
     treasureHuntToPrintMoney: new Event("You found a money press!", require("@/assets/icons/book.png"), 280, [
         new EventOption("No prison!", require("@/assets/icons/cuffs.png"), "gainGoodness", ""),
-        new EventOption("Noone would know.", require("@/assets/icons/bag_money.png"), "unlockAction", "printmoney", ['robBankToPrintMoney','treasureHuntToPrintMoney','robGraveToPrintMoney'] )]),
+        new EventOption("No-one would know.", require("@/assets/icons/bag_money.png"), "unlockAction", "printmoney", ['robBankToPrintMoney','treasureHuntToPrintMoney','robGraveToPrintMoney'] )]),
     treasureHuntToRobGrave: new Event("Your treasure seems to be a grave.", require("@/assets/icons/signpost.png"), 160, [
         new EventOption("Oh even better!", require("@/assets/icons/skull_person.png"), "unlockAction", "graverobbery", ['treasureHuntToRobGrave'] ),
         new EventOption("That's sacred!", require("@/assets/icons/totem.png"), "gainGoodness", "")]),
