@@ -78,8 +78,11 @@
         methods: {
             ...mapMutations(['seteffects', 'setmusic']),
             hardreset() {
+                // Stop game
+                this.$store.commit('stopTicking');
                 // Hard Reset: Delete State
                 localStorage.removeItem(storagename);
+
                 // Reload page
                 location.reload();
             }

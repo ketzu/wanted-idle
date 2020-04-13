@@ -14,7 +14,29 @@ export const ends = [
     new End("This wasn't planned...", "... so wait, there's a medal somewhere around here for you. You actually went for the good path? I'm impressed, as are the people. They elect you their mayor.", require("@/assets/icons/medal.png"))
 ];
 
-
+export const images = {
+    metal_cup: require('@/assets/icons/metal_cup.png'),
+    bag: require('@/assets/icons/bag.png'),
+    hand_hit: require('@/assets/icons/hand_hit.png'),
+    playing_cards: require('@/assets/icons/playing_cards.png'),
+    telegraph: require('@/assets/icons/telegraph.png'),
+    axe_indian: require('@/assets/icons/axe_indian.png'),
+    hand_gun: require('@/assets/icons/hand_gun.png'),
+    horse: require('@/assets/icons/horse.png'),
+    compass: require('@/assets/icons/compass.png'),
+    cigar_box: require('@/assets/icons/cigar_box.png'),
+    flying_bullet: require('@/assets/icons/flying_bullet.png'),
+    skull_person: require('@/assets/icons/skull_person.png'),
+    gold_bar: require('@/assets/icons/gold_bar.png'),
+    bull_head: require('@/assets/icons/bull_head.png'),
+    hat_sherrif: require('@/assets/icons/hat_sherrif.png'),
+    bag_money: require('@/assets/icons/bag_money.png'),
+    wanted_poster_10000: require('@/assets/icons/wanted_poster_10000.png'),
+    train: require('@/assets/icons/train.png'),
+    molotov: require('@/assets/icons/molotov.png'),
+    indian_boss_head_jewlery: require('@/assets/icons/indian_boss_head_jewlery.png'),
+    lasso: require('@/assets/icons/lasso.png')
+};
 
 export const goodActions = {
     "Beg": 1,

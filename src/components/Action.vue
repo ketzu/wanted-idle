@@ -5,7 +5,7 @@
                     tile
                     size="80"
             >
-                <img :src="icon">
+                <img :src="icon_path">
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -28,10 +28,17 @@
 
 <script>
     import Level from "./Level";
+    import {images} from "../gamemechanic/constants";
+
     export default {
         name: "Action",
         components: {Level},
         props: ['title', 'icon', 'description', 'active', 'level', 'index', 'action'],
+        computed: {
+            icon_path() {
+                return images[this.icon];
+            }
+        },
         methods: {
             click() {
                 this.$store.dispatch('select', this.index);
