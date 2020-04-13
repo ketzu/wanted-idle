@@ -160,7 +160,8 @@ export default new Vuex.Store({
           }else{
             commit('setEnd', 1);
           }
-        kongapi.stats.submit("minticks", state.minticks);
+        if(state.minticks !== Infinity)
+          kongapi.stats.submit("minticks", state.minticks);
         kongapi.stats.submit("timesReachedEnd", getters['timesReachedEnd']);
         kongapi.stats.submit("endsReached", getters['endsReached']);
       }
@@ -183,7 +184,8 @@ export default new Vuex.Store({
       kongregateAPI.loadAPI(()=>{
         // eslint-disable-next-line no-undef
         kongapi=kongregateAPI.getAPI();
-        kongapi.stats.submit("minticks", state.minticks);
+        if(state.minticks !== Infinity)
+          kongapi.stats.submit("minticks", state.minticks);
         kongapi.stats.submit("timesReachedEnd", getters['timesReachedEnd']);
         kongapi.stats.submit("endsReached", getters['endsReached']);
       });
