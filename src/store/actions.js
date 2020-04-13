@@ -35,7 +35,7 @@ export const actionStore = {
                 // 1+ level
                 treasurehunt: new Action("Treasure Hunt", "Let's hope there won't be any snakes.", require('@/assets/icons/compass.png'), new ProbabilisticAction(0.00151,19.74), ["treasureHuntToPrintMoney","treasureHuntToRobGrave"], ["telegrapher", "begging"]),
 
-                breakin: new Action("Burgle", "They won't be homless without this jewlery!", require('@/assets/icons/cigar_box.png'), new ProbabilisticAction(0.00855,3.6), ["breakInToKidnap","breakInToTrade"], ["mobster"]),
+                breakin: new Action("Burgle", "They won't be homeless without this jewelery!", require('@/assets/icons/cigar_box.png'), new ProbabilisticAction(0.00855,3.6), ["breakInToKidnap","breakInToTrade"], ["mobster"]),
                 assassinate: new Action("Assassinate", "It's better than buying politicians!?", require('@/assets/icons/flying_bullet.png'), new ProbabilisticAction(0.0009,50), ["assassinateToTerrorize"], ["mobster"]),
                 graverobbery: new Action("Rob Graves", "Is this considered a raid?", require('@/assets/icons/skull_person.png'), new ProbabilisticAction(0.0014,32.11), ["robGraveToPrintMoney"], ["treasurehunt"]),
                 robbank: new Action("Rob Bank", "My name is Banks. Rob Banks.", require('@/assets/icons/gold_bar.png'), new ProbabilisticAction(0.00195,22.2), ["robBankToPrintMoney"], ["rob"]),
@@ -44,7 +44,7 @@ export const actionStore = {
                 stealcattle: new Action("Steal Cattle", "They had thousands! They won't miss this one!", require('@/assets/icons/bull_head.png'), new ProbabilisticAction(0.00825,4.74), [], ["stealhorse"], true),
                 deadendjob: new Action("Dead-end Job", "I'm not one of the bad ones!", require('@/assets/icons/hat_sherrif.png'), new SteadyAction(100,4), [], ["telegrapher"], true),
                 printmoney: new Action("Print Money", "Non-violent crimes shouldn't be punished!", require('@/assets/icons/bag_money.png'), new SteadyAction(20,1), [], ["treasurehunt", "graverobbery", "robbank"], true),
-                bountyhunter: new Action("Bounty Hunt", "Oh yeah! Cathing them bad guys!", require('@/assets/icons/wanted_poster_10000.png'), new ProbabilisticAction(0.00435,9.42), [], ["telegrapher", "begging"], true),
+                bountyhunter: new Action("Bounty Hunt", "Oh yeah! Catching them bad guys!", require('@/assets/icons/wanted_poster_10000.png'), new ProbabilisticAction(0.00435,9.42), [], ["telegrapher", "begging"], true),
                 robtrain: new Action("Rob Train", "Couldn't find a mail coach?", require('@/assets/icons/train.png'), new ProbabilisticAction(0.0064,7.5), [], ["rob"], true),
                 terrorize: new Action("Terrorize", "Asymmetric warfare pays well.", require('@/assets/icons/molotov.png'), new ProbabilisticAction(0.00112,44.44), [], ["assassinate"], true),
                 tradewithindians: new Action("Trade with Natives", "Not every law is moral.", require('@/assets/icons/indian_boss_head_jewlery.png'), new SteadyAction(200,10), [], ["gamble", "breakin"], true),
