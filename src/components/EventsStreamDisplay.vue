@@ -39,7 +39,7 @@
         name: "EventsStreamDisplay",
         methods: {
             eventUnlocked(value) {
-                if(eventsounds[value] instanceof Audio)
+                if(this.effects && (eventsounds[value] instanceof Audio))
                     eventsounds[value].play();
             }
         },
