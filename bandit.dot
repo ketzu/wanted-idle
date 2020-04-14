@@ -1,0 +1,90 @@
+digraph G {
+
+  Money [shape=square, color=yellow, style=filled];
+  Revolver [shape=square, color=yellow, style=filled];
+  
+  Begging [color=green, style=filled];
+  Telegrapher [color=green, style=filled];
+  DeadEndJob [color=green, style=filled];
+  BountyHunter [color=green, style=filled];
+  TreasureHunt [color=green, style=filled];
+  
+  Boxing [color=lightblue, style=filled];
+  Gamble [color=lightblue, style=filled];
+  GraveRobbery [color=lightblue, style=filled];
+  TradeWithIndians [color=lightblue, style=filled];
+  
+  Thieving [color=orange, style=filled];
+  StealHorse [color=orange, style=filled];
+  StealCattle [color=orange, style=filled];
+  Rob [color=orange, style=filled];
+  PrintMoney [color=orange, style=filled];
+  BreakIn [color=orange, style=filled];
+  Mobster [color=orange, style=filled];
+  
+  Assasinate [color=red, style=filled];
+  Kidnap [color=red, style=filled];
+  Terrorize [color=red, style=filled];
+  RobBank [color=red, style=filled];
+  RobTrain [color=red, style=filled];
+  
+  And1 [label="&"];
+  And2 [label="&"];
+  And3 [label="&"];
+  And4 [label="&"];
+  
+  Begging -> Telegrapher;
+  Begging -> And1;
+  Begging -> TreasureHunt;
+  Begging -> StealHorse;
+  
+  Telegrapher->DeadEndJob;
+  Telegrapher->And4;
+  Telegrapher->TreasureHunt;
+  
+  And1->BountyHunter;
+  And4->BountyHunter;
+  
+  TreasureHunt->GraveRobbery;
+  TreasureHunt->PrintMoney;
+  
+  GraveRobbery->PrintMoney;
+  
+  Thieving->StealHorse;
+  Thieving->And2;
+  
+  StealHorse->StealCattle;
+  
+  And2->Rob;
+  
+  Rob->RobTrain;
+  Rob->RobBank;
+  
+  RobBank->PrintMoney;
+  
+  Gamble->TradeWithIndians;
+  
+  Boxing->Mobster;
+  
+  Mobster->And3;
+  Mobster->BreakIn;
+  
+  BreakIn->Kidnap;
+  BreakIn->TradeWithIndians;
+  
+  And3->Assasinate;
+  
+  Assasinate->Terrorize;
+  
+  Money->Revolver;
+  Money->Gamble;
+  
+  Revolver->And1;
+  Revolver->And2;
+  Revolver->And3;
+  Revolver->And4;
+  
+  Thieving->Money [style=dotted];
+  Begging->Money [style=dotted];
+  Boxing->Money [style=dotted];
+}
